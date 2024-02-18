@@ -64,7 +64,6 @@ main {
 }
 
 hr {
-    background-color: var(--color-bg-secondary);
     border: none;
     height: 1px;
     margin: 4rem 0;
@@ -823,3 +822,31 @@ s {
 .centeri {
      text-align: center;
 }
+
+
+        .containeri {
+            width: 80%; /* Adjust width as needed */
+            background-color: #F2F6FE;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .rowi {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        .datei {
+            flex: 1;
+            text-align: left;
+        }
+        .linki {
+            flex: 3;
+            text-align: center;
+        }
+        .issuei {
+            flex: 1;
+            text-align: right;
+        }
