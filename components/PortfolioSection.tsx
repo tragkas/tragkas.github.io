@@ -32,6 +32,12 @@ const projects = [
     imageSrc: "/linktree.gif",
     alt: "Airbnb Link Tree Project Image",
   },
+  {
+    name: "Chrome Extension",
+    url: "https://chromewebstore.google.com/detail/bookmark-organizer/cbooolhmbfhplnkfedjohjinljbdjjcg",
+    imageSrc: "/chrome.gif",
+    alt: "Chrome Extension Project Image",
+  },
 ];
 
 const PortfolioSection = () => {
