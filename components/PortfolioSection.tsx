@@ -20,6 +20,18 @@ const projects = [
     imageSrc: "/reset.gif",
     alt: "Your Personal Reset Button Project Image",
   },
+  {
+    name: "Your Plumber",
+    url: "https://plumber-project-tawny.vercel.app/",
+    imageSrc: "/plumber.gif",
+    alt: "Your Personal Plumber Project Image",
+  },
+  {
+    name: "Airbnb Link Tree",
+    url: "https://airbnb-link-tree.vercel.app/",
+    imageSrc: "/linktree.gif",
+    alt: "Airbnb Link Tree Project Image",
+  },
 ];
 
 const PortfolioSection = () => {
