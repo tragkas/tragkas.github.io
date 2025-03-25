@@ -34,7 +34,7 @@ const projects = [
   },
   {
     name: "Chrome Extension",
-    url: "https://chromewebstore.google.com/detail/bookmark-organizer/cbooolhmbfhplnkfedjohjinljbdjjcg",
+    url: "https://bookmark-organizer-six.vercel.app/",
     imageSrc: "/chrome.gif",
     alt: "Chrome Extension Project Image",
   },
