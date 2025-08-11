@@ -8,7 +8,7 @@ const HeroSection = () => {
 
       {/* Content */}
       <div className="relative z-10 max-w-3xl px-6 text-center">
-        <h1 className="text-4xl sm:text-6xl font-extrabold text-white drop-shadow-lg leading-tight">
+        <h1 className="text-5xl sm:text-7xl font-extrabold text-white drop-shadow-lg leading-tight">
           Hi, I&apos;m George
         </h1>
 
@@ -29,7 +29,7 @@ const HeroSection = () => {
             rel="noopener noreferrer"
             className="bg-black hover:bg-gray-600 text-white py-3 px-8 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
-            View Resume
+            Resume
           </a>
           <a
             href="https://drive.google.com/file/d/1h49o9kHqK5Qo3Y5gZw0G2ah9iQpW_e35/view?usp=drive_link"
@@ -37,7 +37,7 @@ const HeroSection = () => {
             rel="noopener noreferrer"
             className="bg-black hover:bg-gray-600 text-white py-3 px-8 rounded-lg transition duration-300 focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
-            View Assessment
+            Personal Assessment
           </a>
         </div>
       </div>

@@ -16,7 +16,7 @@ const NewsletterSection = () => {
           <div className="bg-gray-100 p-12 rounded-lg shadow-lg text-center max-w-lg mx-auto mt-12">
             <h1 className="text-3xl font-bold text-gray-800 mb-6">Your Personal Hard Reset</h1>
             <p className="text-gray-600 mb-8">
-              Unlock the Full-You. Join us to get 1 short email every Monday about how to reset your life.
+              Insights to Navigate Your 20s. Join us to get 1 short email every Monday to 10x Your Life in just 4 minutes.
             </p>
             
             {/* Button to redirect to the newsletter signup page */}
