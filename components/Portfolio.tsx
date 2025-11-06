@@ -9,7 +9,7 @@ const Portfolio = () => {
           <div className="mt-12">
             <a
               href="/"
-              className="bg-black hover:bg-gray-500 text-white py-3 px-6 rounded-lg inline-block transition duration-300"
+              className="bg-black hover:bg-white hover:text-black text-white py-3 px-6 rounded-lg inline-block transition duration-300"
             >
               Back
             </a>
@@ -21,6 +21,24 @@ const Portfolio = () => {
               <tbody className="bg-white text-black divide-y divide-gray-200">
                 {/* Project Rows */}
                 {[
+                  {
+                    year: '2025',
+                    title: 'University Database',
+                    tag: '#web-app',
+                    link: 'https://tragkas.github.io/uni-list/',
+                  },
+                  {
+                    year: '2025',
+                    title: 'Fiotiatora',
+                    tag: '#web-app',
+                    link: 'https://fotiatora.vercel.app/',
+                  },
+                  {
+                    year: '2025',
+                    title: 'Free Extension - Bookmark Search',
+                    tag: '#extension',
+                    link: 'https://chromewebstore.google.com/detail/bookmarks-search/jhhkfgmpoidofjjffbhllclflnbflhek',
+                  },
                   {
                     year: '2025',
                     title: 'Free Extension - Bookmark Manager',
@@ -85,7 +103,7 @@ const Portfolio = () => {
                     year: '2023',
                     title: 'M.Sc. Thesis: The role of crowdfunding in startup financing',
                     tag: '#finance',
-                    link: 'https://www.pyxida.aueb.gr/index.php?op=view_object&object_id=10734&lang=en',
+                    link: 'https://www.pyxida.aueb.gr/items/c2b5ec94-3559-41f5-bdd3-e0d1102d9992',
                   },
                   {
                     year: '2023',

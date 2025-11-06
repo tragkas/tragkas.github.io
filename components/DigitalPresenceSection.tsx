@@ -14,6 +14,12 @@ const digitalPresences = [
     imageSrc: "/youtube-picture.png",
     alt: "YouTube channel image",
   },
+    {
+    name: "Instagram",
+    url: "https://www.instagram.com/georgiostragkas_/",
+    imageSrc: "/instagram-picture.png",
+    alt: "Instagram channel image",
+  },
   {
     name: "Pinterest",
     url: "https://gr.pinterest.com/georgiostragkas/",
@@ -36,18 +42,18 @@ const digitalPresences = [
 
 const DigitalPresenceSection = () => {
   return (
-    <section id="digital-presence" className="py-20 text-center bg-gray-100 text-gray-800">
+    <section id="digital-presence" className="py-20 text-center bg-gray-500 text-white">
       <div className="container mx-auto max-w-6xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-6">Digital Presence</h2>
-        <blockquote className="text-lg italic text-gray-700">
+        <blockquote className="text-lg italic text-white">
           "Everything you can imagine is real"
         </blockquote>
-        <p className="mt-4 text-lg text-gray-600">- Pablo Picasso</p>
+        <p className="mt-4 text-lg text-white">- Pablo Picasso</p>
 
         {/* Digital Presence Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
           {digitalPresences.map((presence) => (
-            <figure key={presence.name} className="border border-gray-400 rounded-lg overflow-hidden shadow-md">
+            <figure key={presence.name} className="border border-black rounded-4xl overflow-hidden shadow-md">
               <a href={presence.url} target="_blank" rel="noopener noreferrer">
                 <Image
                   src={presence.imageSrc}
@@ -61,7 +67,7 @@ const DigitalPresenceSection = () => {
               <figcaption className="p-4">
                 <a
                   href={presence.url}
-                  className="text-black hover:text-gray-500 block text-lg font-semibold focus-visible:ring focus-visible:ring-gray-500"
+                  className="text-black hover:text-white block text-lg font-semibold focus-visible:ring focus-visible:ring-gray-500"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

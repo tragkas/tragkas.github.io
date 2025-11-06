@@ -42,41 +42,41 @@ const socialMediaCertifications = [
 
 const SocialMediaManagementCertificateSection = () => {
   return (
-    <section id="portfolio" className="py-20 text-center bg-gray-100 text-gray-800">
-      <div className="container mx-auto">
-        <h2 className="text-2xl md:text-3xl font-bold mb-8">
-          Meta Social Media Marketing Professional Certificate (Project Portfolio)
-        </h2>
-        <p className="mt-4 text-lg text-center">"Nature optimizes for the whole, not for the individual, but most people judge good and bad based only on how it affects them"</p>
-        <p className="mt-4 text-lg text-center">- Ray Dalio</p>
-        
-        {/* Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-          {socialMediaCertifications.map((item) => (
-            <figure key={item.name} className="border border-gray-500 rounded-lg overflow-hidden shadow-md">
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                <Image
-                  src={item.imageSrc}
-                  alt={item.alt}
-                  width={500}
-                  height={300}
-                  className="w-full h-auto object-cover"
-                  priority
-                />
-              </a>
-              <figcaption className="p-4">
-                <a
-                  href={item.url}
-                  className="text-black hover:text-gray-500 block mb-2 text-lg font-semibold focus-visible:ring focus-visible:ring-gray-500"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Check it ↗
+      <section id="socialMediaCertifications" className="py-20 text-center bg-gray-500 text-white">
+        <div className="container mx-auto max-w-6xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Meta Social Media Marketing Professional Certificate</h2>
+          <blockquote className="text-lg italic text-white">
+            "Nature optimizes for the whole, not for the individual, but most people judge good and bad based only on how it affects them"
+          </blockquote>
+          <p className="mt-4 text-lg text-white">- Ray Dalio</p>
+
+          {/* Digital Presence Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+            {socialMediaCertifications.map((presence) => (
+              <figure key={presence.name} className="border border-black rounded-4xl overflow-hidden shadow-md">
+                <a href={presence.url} target="_blank" rel="noopener noreferrer">
+                  <Image
+                    src={presence.imageSrc}
+                    alt={presence.alt}
+                    width={400}
+                    height={250}
+                    className="w-full h-auto object-cover"
+                    priority
+                  />
                 </a>
-              </figcaption>
-            </figure>
-          ))}
-        </div>
+                <figcaption className="p-4">
+                  <a
+                    href={presence.url}
+                    className="text-black hover:text-white block text-lg font-semibold focus-visible:ring focus-visible:ring-gray-500"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Check it ↗
+                  </a>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
       </div>
     </section>
   );

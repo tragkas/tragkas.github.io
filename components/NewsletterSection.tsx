@@ -13,9 +13,9 @@ const NewsletterSection = () => {
           <p className="mt-4 text-lg">"Always laugh when you can, it is cheap medicine."</p>
           <p className="mt-4 text-lg">- Lord Byron</p>
   
-          <div className="bg-gray-100 p-12 rounded-lg shadow-lg text-center max-w-lg mx-auto mt-12">
-            <h1 className="text-3xl font-bold text-gray-800 mb-6">Your Personal Hard Reset</h1>
-            <p className="text-gray-600 mb-8">
+          <div className="bg-gray-500 p-12 border-black rounded-4xl shadow-lg text-center max-w-lg mx-auto mt-12">
+            <h1 className="text-3xl font-bold text-white mb-6">Your Personal Hard Reset</h1>
+            <p className="text-white mb-8">
               Insights to Navigate Your 20s. Join us to get 1 short email every Monday to 10x Your Life in just 4 minutes.
             </p>
             
@@ -25,7 +25,7 @@ const NewsletterSection = () => {
                 href="https://yourpersonalhardreset.beehiiv.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-black hover:bg-gray-500 text-white py-3 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring focus:ring-blue-500"
+                className="bg-black hover:bg-white hover:text-black text-white py-3 px-6 rounded-lg transition duration-300 focus:outline-none focus:ring focus:ring-blue-500"
               >
                 Join Our Newsletter
               </a>

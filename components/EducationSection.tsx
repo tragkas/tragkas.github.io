@@ -27,7 +27,7 @@ const EducationSection = () => {
               institution: "Codecademy, Online",
               date: "2023 - 2024",
               description:
-                "Full-Stack Engineer Path | This path helps you to build web applications from start to finish. Starts with the front-end, moves to the back-end, then connects the two.",
+                "This path helps you to build web applications from start to finish. Starts with the front-end, moves to the back-end, then connects the two.",
             },
             {
               title: "M.Sc. in Negotiations",
@@ -48,10 +48,10 @@ const EducationSection = () => {
               institution: "Y Combinator, Online",
               date: "November 2023 - Finished",
               description:
-                "Y Combinator's Startup School is a free online program designed to help early-stage entrepreneurs launch their startups and provide them with the tools and resources needed to succeed.",
+                "Free online program designed to help early-stage entrepreneurs launch their startups.",
             },
             {
-              title: "SBA",
+              title: "SBA (Small Business Administration)",
               institution: "SBA, Online",
               date: "November 2023 - Finished",
               description:
@@ -65,7 +65,7 @@ const EducationSection = () => {
                 "The Startup Roadmap is a free online program that helps new businesses to successfully start their operations.",
             },
             {
-              title: "ECPE",
+              title: "ECPE & ECCE Certificates",
               institution: "Hellenic American Union, Greece",
               date: "May 19, 2019",
               description: "",
@@ -83,19 +83,6 @@ const EducationSection = () => {
               date: "2023",
               description:
                 <Link href="https://drive.google.com/drive/folders/1BwpkMdzmDoxWxlmC_ClVxyK0iyuxFzoO?usp=drive_link" target="_blank" rel="noopener noreferrer">see more ↗</Link>,
-            },
-            {
-              title: "Notion Essentials Badge",
-              institution: "Online",
-              date: "2024",
-              description: (
-                <>
-                  Notion Essentials Badge holders have demonstrated baseline proficiency across all Notion features.{" "}
-                  <Link href="https://www.credly.com/badges/6055a4e8-9f3c-46d1-8731-3866d93f09c8/public_url" target="_blank" rel="noopener noreferrer">
-                    see more ↗
-                  </Link>
-                </>
-              ),
             },
           ].map((item, index) => (
             <div key={index} className="bg-white p-4 shadow-md rounded-md">
