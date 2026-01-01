@@ -64,7 +64,7 @@ const HeroSection = () => {
 
           <p className="mt-6 text-gray-300 max-w-md">
             <strong>Instagram Organic Growth 2025: </strong>  
-            <br /> My funnel: 24.2M views → 70K profile visits → <br /> 217 linktree visits → 111 Gumroad visits → 0 sales.
+            <br /> My funnel: 28.1M views → 83.1K profile visits → <br /> 217 linktree visits → 111 Gumroad visits → 0 sales.
           </p>
         </motion.div>
       </div>
