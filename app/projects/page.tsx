@@ -1,15 +1,11 @@
 import ErrorBoundary from "@/components/ErrorBoundary";
 import ProjectsArchiveView from "@/components/ProjectsArchiveView";
-import { getPortfolioSnapshot } from "@/lib/portfolio-service";
+import { portfolioData } from "@/data/portfolio";
 
-export const dynamic = "force-dynamic";
-
-export default async function ProjectsPage() {
-  const snapshot = await getPortfolioSnapshot();
-
+export default function ProjectsPage() {
   return (
     <ErrorBoundary>
-      <ProjectsArchiveView initialData={snapshot} />
+      <ProjectsArchiveView data={portfolioData} />
     </ErrorBoundary>
   );
 }

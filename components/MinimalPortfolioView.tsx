@@ -5,20 +5,17 @@ import Link from "next/link";
 import { motion, MotionConfig } from "motion/react";
 import { ArrowUpRight, Maximize2, X } from "lucide-react";
 import {
-  MediaItemRecord,
-  PortfolioSnapshot,
+  PortfolioContent,
   PROJECT_CATEGORIES,
   ProjectCategory,
   ProjectRecord,
 } from "@/lib/portfolio-types";
-import { CORE_STRENGTHS, EDUCATION_ITEMS } from "@/lib/seed-data";
-import { testConnection } from "@/lib/firebase-client";
 import MinimalHeader from "./MinimalHeader";
 import MinimalFooter from "./MinimalFooter";
 import SmartMedia from "./SmartMedia";
 
 interface MinimalPortfolioViewProps {
-  initialData: PortfolioSnapshot;
+  data: PortfolioContent;
 }
 
 type ProjectFilter = "all" | "featured" | ProjectCategory;
@@ -37,31 +34,11 @@ function formatCategoryLabel(category: string): string {
 }
 
 export default function MinimalPortfolioView({
-  initialData,
+  data,
 }: MinimalPortfolioViewProps) {
-  const [snapshot, setSnapshot] = useState<PortfolioSnapshot>(initialData);
   const [filter, setFilter] = useState<ProjectFilter>("all");
   const [showAllArchive, setShowAllArchive] = useState(false);
   const [lightbox, setLightbox] = useState<LightboxState | null>(null);
-
-  useEffect(() => {
-    void testConnection();
-    // Refresh live Firestore snapshot cleanly on mount in case edits occurred
-    let active = true;
-    fetch("/api/portfolio", { cache: "no-store" })
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data: PortfolioSnapshot | null) => {
-        if (active && data && Array.isArray(data.projects)) {
-          setSnapshot(data);
-        }
-      })
-      .catch(() => {
-        // Keep initial SSR data silently
-      });
-    return () => {
-      active = false;
-    };
-  }, []);
 
   useEffect(() => {
     if (!lightbox) return;
@@ -74,7 +51,16 @@ export default function MinimalPortfolioView({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [lightbox]);
 
-  const { profile, projects, links, media } = snapshot;
+  const {
+    profile,
+    metrics,
+    sectionHeadings,
+    strengths,
+    projects,
+    links,
+    media,
+    education,
+  } = data;
 
   const featuredProjects = useMemo(
     () => projects.filter((p) => p.featured && p.imageUrl),
@@ -104,7 +90,7 @@ export default function MinimalPortfolioView({
     [links]
   );
 
-  const galleryMedia: MediaItemRecord[] = useMemo(
+  const galleryMedia = useMemo(
     () => media.filter((m) => m.src !== profile.heroImage),
     [media, profile.heroImage]
   );
@@ -115,6 +101,7 @@ export default function MinimalPortfolioView({
         <MinimalHeader
           mode="portfolio"
           brandName={profile.name}
+          resumeLabel={profile.resumeLabel}
           resumeUrl={profile.resumeUrl}
         />
 
@@ -130,7 +117,8 @@ export default function MinimalPortfolioView({
               >
                 <div className="space-y-5">
                   <p className="text-xs font-medium text-neutral-500">
-                    {profile.location} · Economics · Front-End · Organic Growth
+                    {profile.location}
+                    {profile.kickerTagline ? ` · ${profile.kickerTagline}` : ""}
                   </p>
                   <h1 className="text-4xl sm:text-5xl font-semibold tracking-tight leading-[1.1] text-neutral-950 text-balance">
                     {profile.headline}
@@ -142,10 +130,10 @@ export default function MinimalPortfolioView({
 
                 <div className="flex flex-wrap items-center gap-4 pt-2">
                   <a
-                    href="#projects"
+                    href={profile.primaryCtaHref}
                     className="px-5 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2"
                   >
-                    Explore Selected Work
+                    {profile.primaryCtaLabel}
                   </a>
                   <a
                     href={profile.resumeUrl}
@@ -153,18 +141,20 @@ export default function MinimalPortfolioView({
                     rel="noopener noreferrer"
                     className="px-4 py-2.5 text-sm font-medium text-neutral-900 bg-white border border-neutral-200 rounded-lg hover:border-neutral-400 transition-colors inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
                   >
-                    <span>Resume</span>
+                    <span>{profile.resumeLabel}</span>
                     <ArrowUpRight className="w-4 h-4 text-neutral-500" aria-hidden="true" />
                   </a>
-                  <a
-                    href={profile.assessmentUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-4 py-2.5 text-sm font-medium text-neutral-700 hover:text-neutral-950 hover:underline underline-offset-4 transition-colors inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
-                  >
-                    <span>Personal Assessment</span>
-                    <ArrowUpRight className="w-4 h-4 text-neutral-500" aria-hidden="true" />
-                  </a>
+                  {profile.assessmentUrl && (
+                    <a
+                      href={profile.assessmentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2.5 text-sm font-medium text-neutral-700 hover:text-neutral-950 hover:underline underline-offset-4 transition-colors inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                    >
+                      <span>{profile.assessmentLabel}</span>
+                      <ArrowUpRight className="w-4 h-4 text-neutral-500" aria-hidden="true" />
+                    </a>
+                  )}
                 </div>
               </motion.div>
 
@@ -178,18 +168,18 @@ export default function MinimalPortfolioView({
                   type="button"
                   onClick={() =>
                     setLightbox({
-                      title: "Instagram Organic Growth 2025",
-                      subtitle: "Analytics Overview · 28.1M Views",
+                      title: profile.heroImageTitle,
+                      subtitle: profile.heroImageSubtitle,
                       src: profile.heroImage,
-                      alt: "Instagram Analytics Overview",
-                      externalUrl: "https://www.instagram.com/georgiostragkas_/",
+                      alt: profile.heroImageTitle,
+                      externalUrl: profile.heroImageExternalUrl,
                     })
                   }
                   className="group relative flex-1 min-h-[260px] w-full rounded-xl overflow-hidden border border-neutral-200 bg-white text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
                 >
                   <SmartMedia
                     src={profile.heroImage}
-                    alt="Instagram Analytics Overview"
+                    alt={profile.heroImageTitle}
                     priority
                     className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-200"
                   />
@@ -207,40 +197,20 @@ export default function MinimalPortfolioView({
             </div>
 
             {/* 4-COLUMN PROOF METRICS STRIP */}
-            <div className="mt-12 pt-8 border-t border-neutral-200 grid grid-cols-2 lg:grid-cols-4 gap-8">
-              <div>
-                <p className="font-mono tabular-nums text-2xl sm:text-3xl font-medium text-neutral-950">
-                  28.1M
-                </p>
-                <p className="mt-1 text-xs text-neutral-500">
-                  Organic Instagram Views (2025)
-                </p>
+            {metrics.length > 0 && (
+              <div className="mt-12 pt-8 border-t border-neutral-200 grid grid-cols-2 lg:grid-cols-4 gap-8">
+                {metrics.map((metric, idx) => (
+                  <div key={`${metric.label}-${idx}`}>
+                    <p className="font-mono tabular-nums text-2xl sm:text-3xl font-medium text-neutral-950">
+                      {metric.useProjectCount ? projects.length : metric.value}
+                    </p>
+                    <p className="mt-1 text-xs text-neutral-500">
+                      {metric.label}
+                    </p>
+                  </div>
+                ))}
               </div>
-              <div>
-                <p className="font-mono tabular-nums text-2xl sm:text-3xl font-medium text-neutral-950">
-                  83.1K
-                </p>
-                <p className="mt-1 text-xs text-neutral-500">
-                  Organic Profile Visits
-                </p>
-              </div>
-              <div>
-                <p className="font-mono tabular-nums text-2xl sm:text-3xl font-medium text-neutral-950">
-                  {projects.length}
-                </p>
-                <p className="mt-1 text-xs text-neutral-500">
-                  Shipped Projects &amp; Research
-                </p>
-              </div>
-              <div>
-                <p className="font-mono tabular-nums text-2xl sm:text-3xl font-medium text-neutral-950">
-                  B.Sc. + M.Sc.
-                </p>
-                <p className="mt-1 text-xs text-neutral-500">
-                  Economics (UNIPI) &amp; Negotiations (AUEB)
-                </p>
-              </div>
-            </div>
+            )}
           </section>
 
           {/* CORE STRENGTHS */}
@@ -251,16 +221,15 @@ export default function MinimalPortfolioView({
             <div className="max-w-6xl mx-auto px-4 sm:px-8">
               <div className="max-w-2xl mb-12">
                 <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950">
-                  Core Strengths
+                  {sectionHeadings.strengthsTitle}
                 </h2>
                 <p className="mt-2 text-sm sm:text-base text-neutral-600">
-                  Three disciplines combined to research markets, build focused web
-                  software, and earn organic distribution.
+                  {sectionHeadings.strengthsSubtitle}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                {CORE_STRENGTHS.map((pillar) => (
+                {strengths.map((pillar) => (
                   <article
                     key={pillar.number}
                     className="pt-6 border-t border-neutral-200 flex flex-col justify-between space-y-5"
@@ -294,10 +263,10 @@ export default function MinimalPortfolioView({
               <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
                 <div>
                   <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950">
-                    Selected Work
+                    {sectionHeadings.projectsTitle}
                   </h2>
                   <p className="mt-2 text-sm sm:text-base text-neutral-600 max-w-xl">
-                    Web apps, Chrome extensions, landing websites, and academic research.
+                    {sectionHeadings.projectsSubtitle}
                   </p>
                 </div>
                 <Link
@@ -353,7 +322,7 @@ export default function MinimalPortfolioView({
                 ))}
               </div>
 
-              {/* Featured Visual Showcase (visible on All / Featured) */}
+              {/* Featured Visual Showcase */}
               {(filter === "all" || filter === "featured") &&
                 featuredProjects.length > 0 && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-14">
@@ -494,11 +463,10 @@ export default function MinimalPortfolioView({
               <div>
                 <div className="max-w-2xl mb-10">
                   <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950">
-                    Marketing &amp; Visual Media
+                    {sectionHeadings.mediaTitle}
                   </h2>
                   <p className="mt-2 text-sm sm:text-base text-neutral-600">
-                    Campaign deliverables from the Meta Social Media Marketing
-                    Professional Certificate alongside selected visual assets.
+                    {sectionHeadings.mediaSubtitle}
                   </p>
                 </div>
 
@@ -568,10 +536,10 @@ export default function MinimalPortfolioView({
               <div id="links" className="pt-12 border-t border-neutral-200">
                 <div className="max-w-2xl mb-8">
                   <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-neutral-950">
-                    Digital Presence &amp; Links
+                    {sectionHeadings.linksTitle}
                   </h3>
                   <p className="mt-1.5 text-sm text-neutral-600">
-                    Active social channels, digital products, and curated resources.
+                    {sectionHeadings.linksSubtitle}
                   </p>
                 </div>
 
@@ -651,16 +619,15 @@ export default function MinimalPortfolioView({
             <div className="max-w-6xl mx-auto px-4 sm:px-8">
               <div className="max-w-2xl mb-10">
                 <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-neutral-950">
-                  Education &amp; Credentials
+                  {sectionHeadings.educationTitle}
                 </h2>
                 <p className="mt-2 text-sm sm:text-base text-neutral-600">
-                  Academic degrees in economics and negotiations paired with engineering
-                  and marketing training.
+                  {sectionHeadings.educationSubtitle}
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-6">
-                {EDUCATION_ITEMS.map((edu) => (
+                {education.map((edu) => (
                   <div
                     key={edu.title}
                     className="py-5 border-t border-neutral-200 flex flex-col justify-between gap-2"
@@ -702,6 +669,8 @@ export default function MinimalPortfolioView({
         <MinimalFooter
           links={links}
           ownerName={profile.name}
+          footerLocation={profile.footerLocation}
+          resumeLabel={profile.resumeLabel}
           resumeUrl={profile.resumeUrl}
         />
 

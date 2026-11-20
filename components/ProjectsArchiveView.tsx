@@ -4,7 +4,7 @@ import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowUpRight, Search } from "lucide-react";
 import {
-  PortfolioSnapshot,
+  PortfolioContent,
   PROJECT_CATEGORIES,
   ProjectCategory,
 } from "@/lib/portfolio-types";
@@ -12,7 +12,7 @@ import MinimalHeader from "./MinimalHeader";
 import MinimalFooter from "./MinimalFooter";
 
 interface ProjectsArchiveViewProps {
-  initialData: PortfolioSnapshot;
+  data: PortfolioContent;
 }
 
 type ArchiveFilter = "all" | ProjectCategory;
@@ -22,14 +22,14 @@ function categoryLabel(cat: string): string {
 }
 
 export default function ProjectsArchiveView({
-  initialData,
+  data,
 }: ProjectsArchiveViewProps) {
   const [filter, setFilter] = useState<ArchiveFilter>("all");
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return initialData.projects.filter((project) => {
+    return data.projects.filter((project) => {
       if (filter !== "all" && project.category !== filter) return false;
       if (!q) return true;
       return (
@@ -38,14 +38,15 @@ export default function ProjectsArchiveView({
         project.year.includes(q)
       );
     });
-  }, [initialData.projects, filter, query]);
+  }, [data.projects, filter, query]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fafafa] text-[#111111]">
       <MinimalHeader
         mode="projects"
-        brandName={initialData.profile.name}
-        resumeUrl={initialData.profile.resumeUrl}
+        brandName={data.profile.name}
+        resumeLabel={data.profile.resumeLabel}
+        resumeUrl={data.profile.resumeUrl}
       />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-12 lg:py-16">
@@ -59,11 +60,10 @@ export default function ProjectsArchiveView({
               <span>Back to Portfolio</span>
             </Link>
             <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-950">
-              Project Archive
+              {data.sectionHeadings.archiveTitle}
             </h1>
             <p className="text-sm sm:text-base text-neutral-600 max-w-2xl">
-              Complete index of shipped web applications, Chrome extensions,
-              websites, economics research, and templates.
+              {data.sectionHeadings.archiveSubtitle}
             </p>
           </div>
 
@@ -97,7 +97,7 @@ export default function ProjectsArchiveView({
                 : "text-neutral-600 hover:text-neutral-950"
             }`}
           >
-            All ({initialData.projects.length})
+            All ({data.projects.length})
           </button>
           {PROJECT_CATEGORIES.map((cat) => (
             <button
@@ -158,9 +158,11 @@ export default function ProjectsArchiveView({
       </main>
 
       <MinimalFooter
-        links={initialData.links}
-        ownerName={initialData.profile.name}
-        resumeUrl={initialData.profile.resumeUrl}
+        links={data.links}
+        ownerName={data.profile.name}
+        footerLocation={data.profile.footerLocation}
+        resumeLabel={data.profile.resumeLabel}
+        resumeUrl={data.profile.resumeUrl}
       />
     </div>
   );

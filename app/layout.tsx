@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { portfolioData } from "@/data/portfolio";
 import "./globals.css";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -21,13 +22,11 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "George Tragkas — Economics, Front-End & Organic Growth",
-  description:
-    "Personal portfolio of George Tragkas: economics, international negotiations, front-end web products, and organic social growth.",
+  title: `${portfolioData.profile.name} — Economics, Front-End & Organic Growth`,
+  description: portfolioData.profile.subheadline,
   openGraph: {
-    title: "George Tragkas — Economics, Front-End & Organic Growth",
-    description:
-      "Personal portfolio of George Tragkas: economics, international negotiations, front-end web products, and organic social growth.",
+    title: `${portfolioData.profile.name} — Economics, Front-End & Organic Growth`,
+    description: portfolioData.profile.subheadline,
   },
 };
 

@@ -2,18 +2,17 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 
 interface MinimalHeaderProps {
-  mode?: "portfolio" | "projects" | "admin";
-  brandName?: string;
-  resumeUrl?: string;
+  mode?: "portfolio" | "projects";
+  brandName: string;
+  resumeLabel?: string;
+  resumeUrl: string;
 }
-
-const DEFAULT_RESUME_URL =
-  "https://drive.google.com/file/d/1h4SYZ_dYsqhNcPELkHu-7odHIuxciyyw/view?usp=drive_link";
 
 export default function MinimalHeader({
   mode = "portfolio",
-  brandName = "George Tragkas",
-  resumeUrl = DEFAULT_RESUME_URL,
+  brandName,
+  resumeLabel = "Resume",
+  resumeUrl,
 }: MinimalHeaderProps) {
   return (
     <header className="border-b border-neutral-200 bg-[#fafafa]/95 backdrop-blur-sm sticky top-0 z-40">
@@ -90,24 +89,15 @@ export default function MinimalHeader({
 
         {/* Zone 3: Single Public Primary Action */}
         <div className="flex items-center shrink-0">
-          {mode === "admin" ? (
-            <Link
-              href="/"
-              className="px-4 py-2 text-xs font-medium text-neutral-900 border border-neutral-300 bg-white rounded-lg hover:bg-neutral-100 transition-colors whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-            >
-              View Portfolio
-            </Link>
-          ) : (
-            <a
-              href={resumeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 text-xs font-medium text-white bg-neutral-900 rounded-lg hover:bg-blue-600 transition-colors inline-flex items-center gap-1 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
-            >
-              <span>Resume</span>
-              <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
-            </a>
-          )}
+          <a
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-4 py-2 text-xs font-medium text-white bg-neutral-900 rounded-lg hover:bg-blue-600 transition-colors inline-flex items-center gap-1 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"
+          >
+            <span>{resumeLabel}</span>
+            <ArrowUpRight className="w-3.5 h-3.5" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </header>

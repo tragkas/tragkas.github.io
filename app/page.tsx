@@ -1,17 +1,13 @@
 import ClarityAnalytics from "@/components/ClarityAnalytics";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import MinimalPortfolioView from "@/components/MinimalPortfolioView";
-import { getPortfolioSnapshot } from "@/lib/portfolio-service";
+import { portfolioData } from "@/data/portfolio";
 
-export const dynamic = "force-dynamic";
-
-export default async function Home() {
-  const snapshot = await getPortfolioSnapshot();
-
+export default function Home() {
   return (
     <ErrorBoundary>
       <ClarityAnalytics />
-      <MinimalPortfolioView initialData={snapshot} />
+      <MinimalPortfolioView data={portfolioData} />
     </ErrorBoundary>
   );
 }

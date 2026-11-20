@@ -1,16 +1,20 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { PortfolioLinkRecord } from "@/lib/portfolio-types";
+import type { PortfolioLinkRecord } from "@/lib/portfolio-types";
 
 interface MinimalFooterProps {
   links: PortfolioLinkRecord[];
-  ownerName?: string;
+  ownerName: string;
+  footerLocation: string;
+  resumeLabel?: string;
   resumeUrl?: string;
 }
 
 export default function MinimalFooter({
   links,
-  ownerName = "George Tragkas",
+  ownerName,
+  footerLocation,
+  resumeLabel = "Resume",
   resumeUrl,
 }: MinimalFooterProps) {
   const socialLinks = links.filter(
@@ -112,7 +116,7 @@ export default function MinimalFooter({
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 hover:text-neutral-900 transition-colors"
                   >
-                    <span>Resume</span>
+                    <span>{resumeLabel}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" aria-hidden="true" />
                   </a>
                 </li>
@@ -123,7 +127,7 @@ export default function MinimalFooter({
 
         <div className="border-t border-neutral-200 mt-12 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-neutral-500">
           <p>{ownerName}</p>
-          <p>Athens, Greece</p>
+          <p>{footerLocation}</p>
         </div>
       </div>
     </footer>
