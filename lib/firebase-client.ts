@@ -6,28 +6,36 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
+  type Auth,
   type User,
 } from "firebase/auth";
 import {
   doc,
   getDocFromServer,
   getFirestore,
+  type Firestore,
 } from "firebase/firestore";
-import { getFirebaseClientConfig, getPublicAdminEmail } from "./firebase-config";
-
-export const ADMIN_EMAIL = getPublicAdminEmail();
+import { getFirebaseClientConfig, isFirebaseConfigured } from "./firebase-config";
 
 const firebaseConfig = getFirebaseClientConfig();
+const configured = isFirebaseConfigured(firebaseConfig);
 
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+const app = configured
+  ? getApps().length
+    ? getApp()
+    : initializeApp(firebaseConfig)
+  : null;
 
-export const db =
-  firebaseConfig.firestoreDatabaseId &&
-  firebaseConfig.firestoreDatabaseId !== "(default)"
+export const db: Firestore | null = app
+  ? firebaseConfig.firestoreDatabaseId &&
+    firebaseConfig.firestoreDatabaseId !== "(default)"
     ? getFirestore(app, firebaseConfig.firestoreDatabaseId)
-    : getFirestore(app);
+    : getFirestore(app)
+  : null;
 
-export const auth = getAuth(app);
+export const auth: Auth | null = app ? getAuth(app) : null;
+
+export const firebaseClientReady = configured;
 
 export enum OperationType {
   CREATE = "create",
@@ -63,13 +71,13 @@ export function handleFirestoreError(
   const errInfo: FirestoreErrorInfo = {
     error: error instanceof Error ? error.message : String(error),
     authInfo: {
-      userId: auth.currentUser?.uid ?? null,
-      email: auth.currentUser?.email ?? null,
-      emailVerified: auth.currentUser?.emailVerified ?? null,
-      isAnonymous: auth.currentUser?.isAnonymous ?? null,
-      tenantId: auth.currentUser?.tenantId ?? null,
+      userId: auth?.currentUser?.uid ?? null,
+      email: auth?.currentUser?.email ?? null,
+      emailVerified: auth?.currentUser?.emailVerified ?? null,
+      isAnonymous: auth?.currentUser?.isAnonymous ?? null,
+      tenantId: auth?.currentUser?.tenantId ?? null,
       providerInfo:
-        auth.currentUser?.providerData?.map((provider) => ({
+        auth?.currentUser?.providerData?.map((provider) => ({
           providerId: provider.providerId,
           email: provider.email,
         })) || [],
@@ -84,7 +92,7 @@ export function handleFirestoreError(
 let connectionTested = false;
 
 export async function testConnection(): Promise<void> {
-  if (connectionTested || typeof window === "undefined") return;
+  if (connectionTested || typeof window === "undefined" || !db) return;
   connectionTested = true;
   try {
     await getDocFromServer(doc(db, "test", "connection"));
@@ -95,30 +103,57 @@ export async function testConnection(): Promise<void> {
   }
 }
 
+export async function verifyServerOwnership(
+  user: User
+): Promise<{ authorized: boolean; error?: string }> {
+  try {
+    const token = await user.getIdToken();
+    const res = await fetch("/api/auth/verify", {
+      method: "GET",
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    const data = (await res.json()) as { authorized?: boolean; error?: string };
+    if (!res.ok || !data.authorized) {
+      return {
+        authorized: false,
+        error:
+          data.error ||
+          "Access denied. Only the verified portfolio owner account is allowed to sign in.",
+      };
+    }
+    return { authorized: true };
+  } catch {
+    return {
+      authorized: false,
+      error: "Unable to verify owner authorization with the server.",
+    };
+  }
+}
+
 export async function signInWithGoogle(): Promise<User> {
+  if (!auth) {
+    throw new Error(
+      "Firebase client environment variables are not configured."
+    );
+  }
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
     prompt: "select_account",
-    login_hint: ADMIN_EMAIL,
   });
   const result = await signInWithPopup(auth, provider);
-  if (!isPortfolioOwner(result.user)) {
+  const check = await verifyServerOwnership(result.user);
+  if (!check.authorized) {
     await signOut(auth);
     throw new Error(
-      "Access denied. Only the verified portfolio owner is allowed to sign in."
+      check.error ||
+        "Access denied. Only the verified portfolio owner is allowed to sign in."
     );
   }
   return result.user;
 }
 
 export async function signOutUser(): Promise<void> {
+  if (!auth) return;
   await signOut(auth);
-}
-
-export function isPortfolioOwner(user: User | null): boolean {
-  if (!user) return false;
-  return Boolean(
-    user.emailVerified &&
-      user.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
-  );
 }

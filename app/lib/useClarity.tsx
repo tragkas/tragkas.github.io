@@ -5,8 +5,9 @@ import Clarity from "@microsoft/clarity";
 
 const useClarity = () => {
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      Clarity.init("qm4eaik97r");
+    const clarityId = process.env.NEXT_PUBLIC_CLARITY_ID?.trim();
+    if (typeof window !== "undefined" && clarityId) {
+      Clarity.init(clarityId);
     }
   }, []);
 };

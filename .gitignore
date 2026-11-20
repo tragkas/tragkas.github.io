@@ -30,8 +30,17 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files (keep .env.example tracked, ignore all actual .env files)
 .env*
+!.env.example
+
+# firebase local config & debug logs (never commit API keys or project config)
+firebase-applet-config.json
+firebase-debug.log*
+firestore-debug.log*
+
+# package manager lockfile cleanup
+bun.lock
 
 # vercel
 .vercel

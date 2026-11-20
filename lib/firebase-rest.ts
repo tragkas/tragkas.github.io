@@ -1,13 +1,23 @@
 import { getFirebaseClientConfig } from "./firebase-config";
 
-const firebaseConfig = getFirebaseClientConfig();
-const PROJECT_ID = firebaseConfig.projectId;
-const DATABASE_ID = firebaseConfig.firestoreDatabaseId || "(default)";
-const API_KEY = firebaseConfig.apiKey;
+function getRestConfig() {
+  const firebaseConfig = getFirebaseClientConfig();
+  const projectId = firebaseConfig.projectId;
+  const databaseId = firebaseConfig.firestoreDatabaseId || "(default)";
+  const apiKey = firebaseConfig.apiKey;
 
-const DB_ROOT = `projects/${PROJECT_ID}/databases/${DATABASE_ID}`;
-const DOCS_BASE_URL = `https://firestore.googleapis.com/v1/${DB_ROOT}/documents`;
-const COMMIT_URL = `https://firestore.googleapis.com/v1/${DB_ROOT}:commit`;
+  if (!projectId || !apiKey) {
+    throw new Error("Firebase environment variables are not configured.");
+  }
+
+  const dbRoot = `projects/${projectId}/databases/${databaseId}`;
+  return {
+    dbRoot,
+    apiKey,
+    docsBaseUrl: `https://firestore.googleapis.com/v1/${dbRoot}/documents`,
+    commitUrl: `https://firestore.googleapis.com/v1/${dbRoot}:commit`,
+  };
+}
 
 type FirestoreValue =
   | { stringValue: string }
@@ -75,7 +85,8 @@ function encodeFields(data: Record<string, unknown>): Record<string, FirestoreVa
 export async function listCollection<T extends { id: string }>(
   collectionName: string
 ): Promise<T[]> {
-  const url = `${DOCS_BASE_URL}/${encodeURIComponent(collectionName)}?pageSize=200&key=${encodeURIComponent(API_KEY)}`;
+  const { docsBaseUrl, apiKey } = getRestConfig();
+  const url = `${docsBaseUrl}/${encodeURIComponent(collectionName)}?pageSize=200&key=${encodeURIComponent(apiKey)}`;
   const res = await fetch(url, { cache: "no-store" });
   if (!res.ok) {
     const errText = await res.text().catch(() => "");
@@ -92,7 +103,8 @@ export async function getDocument<T extends { id: string }>(
   collectionName: string,
   docId: string
 ): Promise<T | null> {
-  const url = `${DOCS_BASE_URL}/${encodeURIComponent(collectionName)}/${encodeURIComponent(docId)}?key=${encodeURIComponent(API_KEY)}`;
+  const { docsBaseUrl, apiKey } = getRestConfig();
+  const url = `${docsBaseUrl}/${encodeURIComponent(collectionName)}/${encodeURIComponent(docId)}?key=${encodeURIComponent(apiKey)}`;
   const res = await fetch(url, { cache: "no-store" });
   if (res.status === 404) {
     return null;
@@ -112,6 +124,7 @@ export async function createDocument(
   idToken: string,
   options?: { includeCreatedAt?: boolean }
 ): Promise<void> {
+  const { dbRoot, commitUrl } = getRestConfig();
   const includeCreatedAt = options?.includeCreatedAt ?? true;
   const transforms: { fieldPath: string; setToServerValue: "REQUEST_TIME" }[] = [
     { fieldPath: "updatedAt", setToServerValue: "REQUEST_TIME" },
@@ -124,7 +137,7 @@ export async function createDocument(
     writes: [
       {
         update: {
-          name: `${DB_ROOT}/documents/${collectionName}/${docId}`,
+          name: `${dbRoot}/documents/${collectionName}/${docId}`,
           fields: encodeFields(data),
         },
         updateTransforms: transforms,
@@ -133,7 +146,7 @@ export async function createDocument(
     ],
   };
 
-  const res = await fetch(COMMIT_URL, {
+  const res = await fetch(commitUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${idToken}`,
@@ -154,12 +167,13 @@ export async function updateDocument(
   data: Record<string, unknown>,
   idToken: string
 ): Promise<void> {
+  const { dbRoot, commitUrl } = getRestConfig();
   const fieldPaths = Object.keys(data);
   const body = {
     writes: [
       {
         update: {
-          name: `${DB_ROOT}/documents/${collectionName}/${docId}`,
+          name: `${dbRoot}/documents/${collectionName}/${docId}`,
           fields: encodeFields(data),
         },
         updateMask: {
@@ -173,7 +187,7 @@ export async function updateDocument(
     ],
   };
 
-  const res = await fetch(COMMIT_URL, {
+  const res = await fetch(commitUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${idToken}`,
@@ -193,10 +207,11 @@ export async function upsertProfileDocument(
   idToken: string,
   exists: boolean
 ): Promise<void> {
+  const { dbRoot, commitUrl } = getRestConfig();
   const fieldPaths = Object.keys(data);
   const write: Record<string, unknown> = {
     update: {
-      name: `${DB_ROOT}/documents/profile/main`,
+      name: `${dbRoot}/documents/profile/main`,
       fields: encodeFields(data),
     },
     updateTransforms: [
@@ -208,7 +223,7 @@ export async function upsertProfileDocument(
     write.updateMask = { fieldPaths };
   }
 
-  const res = await fetch(COMMIT_URL, {
+  const res = await fetch(commitUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${idToken}`,
@@ -228,7 +243,8 @@ export async function deleteDocument(
   docId: string,
   idToken: string
 ): Promise<void> {
-  const url = `${DOCS_BASE_URL}/${encodeURIComponent(collectionName)}/${encodeURIComponent(docId)}`;
+  const { docsBaseUrl } = getRestConfig();
+  const url = `${docsBaseUrl}/${encodeURIComponent(collectionName)}/${encodeURIComponent(docId)}`;
   const res = await fetch(url, {
     method: "DELETE",
     headers: {
@@ -252,6 +268,7 @@ export async function batchSeedDocuments(
   idToken: string
 ): Promise<void> {
   if (writes.length === 0) return;
+  const { dbRoot, commitUrl } = getRestConfig();
   const formattedWrites = writes.map((w) => {
     const transforms: { fieldPath: string; setToServerValue: "REQUEST_TIME" }[] = [
       { fieldPath: "updatedAt", setToServerValue: "REQUEST_TIME" },
@@ -261,7 +278,7 @@ export async function batchSeedDocuments(
     }
     return {
       update: {
-        name: `${DB_ROOT}/documents/${w.collectionName}/${w.docId}`,
+        name: `${dbRoot}/documents/${w.collectionName}/${w.docId}`,
         fields: encodeFields(w.data),
       },
       updateTransforms: transforms,
@@ -269,7 +286,7 @@ export async function batchSeedDocuments(
     };
   });
 
-  const res = await fetch(COMMIT_URL, {
+  const res = await fetch(commitUrl, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${idToken}`,

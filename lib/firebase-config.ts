@@ -1,5 +1,3 @@
-import bundledConfig from "../firebase-applet-config.json";
-
 export interface FirebaseClientConfig {
   projectId: string;
   appId: string;
@@ -12,31 +10,19 @@ export interface FirebaseClientConfig {
 
 export function getFirebaseClientConfig(): FirebaseClientConfig {
   return {
-    projectId:
-      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() ||
-      bundledConfig.projectId,
-    appId:
-      process.env.NEXT_PUBLIC_FIREBASE_APP_ID?.trim() || bundledConfig.appId,
-    apiKey:
-      process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() || bundledConfig.apiKey,
-    authDomain:
-      process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() ||
-      bundledConfig.authDomain,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim() || "",
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID?.trim() || "",
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim() || "",
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.trim() || "",
     firestoreDatabaseId:
       process.env.NEXT_PUBLIC_FIREBASE_FIRESTORE_DATABASE_ID?.trim() ||
-      bundledConfig.firestoreDatabaseId ||
       "(default)",
-    storageBucket:
-      process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET?.trim() ||
-      bundledConfig.storageBucket,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET?.trim() || "",
     messagingSenderId:
-      process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID?.trim() ||
-      bundledConfig.messagingSenderId,
+      process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID?.trim() || "",
   };
 }
 
-export function getPublicAdminEmail(): string {
-  return (
-    process.env.NEXT_PUBLIC_ADMIN_EMAIL?.trim() || "george1tragas@gmail.com"
-  );
+export function isFirebaseConfigured(config = getFirebaseClientConfig()): boolean {
+  return Boolean(config.apiKey && config.projectId && config.appId && config.authDomain);
 }

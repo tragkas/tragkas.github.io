@@ -19,12 +19,12 @@ import {
   AlertCircle,
 } from "lucide-react";
 import {
-  ADMIN_EMAIL,
   auth,
-  isPortfolioOwner,
+  firebaseClientReady,
   signInWithGoogle,
   signOutUser,
   testConnection,
+  verifyServerOwnership,
 } from "@/lib/firebase-client";
 import {
   LINK_GROUPS,
@@ -92,6 +92,7 @@ async function compressImageFile(file: File): Promise<string> {
 
 export default function AdminStudio({ initialData }: AdminStudioProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [ownerVerified, setOwnerVerified] = useState(false);
   const [authReady, setAuthReady] = useState(false);
   const [snapshot, setSnapshot] = useState<PortfolioSnapshot>(initialData);
   const [activeTab, setActiveTab] = useState<StudioTab>("projects");
@@ -165,25 +166,50 @@ export default function AdminStudio({ initialData }: AdminStudioProps) {
 
   useEffect(() => {
     void testConnection();
-    const unsub = onAuthStateChanged(auth, (nextUser) => {
-      if (nextUser && !isPortfolioOwner(nextUser)) {
-        void signOutUser();
+    if (!auth) {
+      setAuthReady(true);
+      return;
+    }
+    let active = true;
+    const unsub = onAuthStateChanged(auth, async (nextUser) => {
+      if (!nextUser) {
+        if (!active) return;
         setUser(null);
+        setOwnerVerified(false);
+        setAuthReady(true);
+        return;
+      }
+
+      const check = await verifyServerOwnership(nextUser);
+      if (!active) return;
+
+      if (!check.authorized) {
+        await signOutUser();
+        if (!active) return;
+        setUser(null);
+        setOwnerVerified(false);
         setAuthReady(true);
         setNotice({
           type: "err",
-          text: "Access denied. Only the verified portfolio owner account is permitted to sign in.",
+          text:
+            check.error ||
+            "Access denied. Only the verified portfolio owner account is permitted to sign in.",
         });
         return;
       }
+
       setUser(nextUser);
+      setOwnerVerified(true);
       setAuthReady(true);
     });
-    return () => unsub();
+    return () => {
+      active = false;
+      unsub();
+    };
   }, []);
 
   const getToken = useCallback(async (): Promise<string> => {
-    if (!auth.currentUser) {
+    if (!auth?.currentUser) {
       throw new Error("Please sign in first.");
     }
     return auth.currentUser.getIdToken();
@@ -232,7 +258,7 @@ export default function AdminStudio({ initialData }: AdminStudioProps) {
 
   // Automatically persist starting portfolio records into Firestore on first owner sign-in
   useEffect(() => {
-    if (!authReady || !isPortfolioOwner(user) || autoSeeded) return;
+    if (!authReady || !ownerVerified || !user || autoSeeded) return;
     const { fromDatabase } = snapshot;
     if (
       !fromDatabase.profile ||
@@ -610,14 +636,25 @@ export default function AdminStudio({ initialData }: AdminStudioProps) {
     }
   };
 
-  const ownerAuthenticated = isPortfolioOwner(user);
+  const ownerAuthenticated = Boolean(user && ownerVerified);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#fafafa] text-[#111111]">
       <MinimalHeader mode="admin" brandName={snapshot.profile.name} />
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-8 py-12">
-        {!authReady ? (
+        {!firebaseClientReady ? (
+          <div className="max-w-md mx-auto bg-white border border-neutral-200 rounded-xl p-8 space-y-3">
+            <h1 className="text-xl font-semibold text-neutral-950">
+              Environment Configuration Required
+            </h1>
+            <p className="text-sm text-neutral-600 leading-relaxed">
+              Add your <code className="font-mono text-xs">NEXT_PUBLIC_FIREBASE_*</code> and{" "}
+              <code className="font-mono text-xs">ADMIN_EMAIL</code> environment variables in
+              Vercel Project Settings to enable Portfolio Studio sign-in.
+            </p>
+          </div>
+        ) : !authReady ? (
           <div className="max-w-md mx-auto bg-white border border-neutral-200 rounded-xl p-8 text-center text-sm text-neutral-500">
             Checking session...
           </div>
@@ -628,11 +665,8 @@ export default function AdminStudio({ initialData }: AdminStudioProps) {
                 Portfolio Management Sign In
               </h1>
               <p className="text-sm text-neutral-600 leading-relaxed">
-                Sign in with your verified Google owner account (
-                <span className="font-mono text-xs text-neutral-800">
-                  {ADMIN_EMAIL}
-                </span>
-                ) to add, edit, or delete projects, links, and media.
+                Sign in with your verified Google owner account to add, edit, or delete
+                projects, links, and media.
               </p>
             </div>
 
@@ -666,11 +700,7 @@ export default function AdminStudio({ initialData }: AdminStudioProps) {
               <span className="font-mono text-xs text-neutral-900">
                 {user.email}
               </span>
-              . Management actions are restricted strictly to{" "}
-              <span className="font-mono text-xs text-neutral-900">
-                {ADMIN_EMAIL}
-              </span>
-              .
+              . Management actions are restricted strictly to the verified portfolio owner.
             </p>
             <button
               type="button"

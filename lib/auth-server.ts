@@ -3,17 +3,18 @@ import { getAuth } from "firebase-admin/auth";
 import type { NextRequest } from "next/server";
 import { getFirebaseClientConfig } from "./firebase-config";
 
-export const ADMIN_EMAIL = (
-  process.env.ADMIN_EMAIL?.trim() ||
-  process.env.NEXT_PUBLIC_ADMIN_EMAIL?.trim() ||
-  "george1tragas@gmail.com"
-).toLowerCase();
+function getServerAdminEmail(): string {
+  return (process.env.ADMIN_EMAIL?.trim() || "").toLowerCase();
+}
 
 function getAdminApp() {
   if (getApps().length > 0) {
     return getApp();
   }
   const { projectId } = getFirebaseClientConfig();
+  if (!projectId) {
+    throw new AuthError("Firebase project is not configured on the server.", 500);
+  }
   return initializeApp({
     projectId,
   });
@@ -34,6 +35,14 @@ export class AuthError extends Error {
 }
 
 export async function verifyAdminRequest(req: NextRequest): Promise<VerifiedAdmin> {
+  const adminEmail = getServerAdminEmail();
+  if (!adminEmail) {
+    throw new AuthError(
+      "Server ADMIN_EMAIL environment variable is not configured.",
+      500
+    );
+  }
+
   const authHeader = req.headers.get("authorization") || "";
   if (!authHeader.startsWith("Bearer ")) {
     throw new AuthError("Authentication required. Please sign in.", 401);
@@ -50,9 +59,12 @@ export async function verifyAdminRequest(req: NextRequest): Promise<VerifiedAdmi
 
     if (
       !decoded.email_verified ||
-      decoded.email?.toLowerCase() !== ADMIN_EMAIL
+      decoded.email?.toLowerCase() !== adminEmail
     ) {
-      throw new AuthError("Access restricted to the verified portfolio owner.", 403);
+      throw new AuthError(
+        "Access restricted to the verified portfolio owner.",
+        403
+      );
     }
 
     return {
@@ -64,6 +76,9 @@ export async function verifyAdminRequest(req: NextRequest): Promise<VerifiedAdmi
     if (error instanceof AuthError) {
       throw error;
     }
-    throw new AuthError("Invalid or expired session token. Please sign in again.", 401);
+    throw new AuthError(
+      "Invalid or expired session token. Please sign in again.",
+      401
+    );
   }
 }
