@@ -1,29 +1,17 @@
-"use client";
+import ClarityAnalytics from "@/components/ClarityAnalytics";
+import ErrorBoundary from "@/components/ErrorBoundary";
+import MinimalPortfolioView from "@/components/MinimalPortfolioView";
+import { getPortfolioSnapshot } from "@/lib/portfolio-service";
 
-import React from "react";
-import useClarity from "./lib/useClarity";
-import NavigationBar from "../components/NavigationBar";
-import HeroSection from "../components/HeroSection";
-import PortfolioSection from "../components/PortfolioSection";
-import DigitalPresenceSection from "../components/DigitalPresenceSection";
-import SocialMediaManagementCertificateSection from "../components/SocialMediaManagementCertificateSection";
-import EducationSection from "../components/EducationSection";
-import NewsletterSection from "../components/NewsletterSection";
-import Footer from "../components/Footer";
+export const dynamic = "force-dynamic";
 
-export default function Home() {
-  useClarity(); // Call Clarity inside the component
+export default async function Home() {
+  const snapshot = await getPortfolioSnapshot();
 
   return (
-    <>
-      <NavigationBar />
-      <HeroSection />
-      <PortfolioSection />
-      <DigitalPresenceSection />
-      <SocialMediaManagementCertificateSection />
-      <EducationSection />
-      <NewsletterSection />
-      <Footer />
-    </>
+    <ErrorBoundary>
+      <ClarityAnalytics />
+      <MinimalPortfolioView initialData={snapshot} />
+    </ErrorBoundary>
   );
 }

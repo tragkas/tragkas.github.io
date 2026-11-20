@@ -1,0 +1,257 @@
+{
+  "entities": {
+    "Project": {
+      "title": "Project",
+      "description": "A portfolio project, web application, extension, or research artifact.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140,
+          "description": "Display title of the project."
+        },
+        "year": {
+          "type": "string",
+          "pattern": "^[0-9]{4}$",
+          "minLength": 4,
+          "maxLength": 4,
+          "description": "Four-digit year the project was shipped."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["web-app", "extension", "website", "finance", "negotiations", "real-estate", "other"],
+          "description": "Project category."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "pattern": "^https?://.+",
+          "description": "External project URL."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "Concise summary of the project and outcome."
+        },
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 600000,
+          "description": "Optional preview image path, HTTPS URL, or bounded base64 image data URI."
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether the project appears in the featured visual showcase."
+        },
+        "sortOrder": {
+          "type": "number",
+          "description": "Manual display sort order."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the portfolio owner who created the record."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp."
+        }
+      },
+      "required": ["title", "year", "category", "url", "featured", "sortOrder", "ownerUid", "createdAt", "updatedAt"]
+    },
+    "PortfolioLink": {
+      "title": "PortfolioLink",
+      "description": "Social profile, resource, or external channel link.",
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100,
+          "description": "Display label for the link."
+        },
+        "group": {
+          "type": "string",
+          "enum": ["social", "channel", "resource"],
+          "description": "Section grouping for the link."
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000,
+          "pattern": "^https?://.+",
+          "description": "Destination URL."
+        },
+        "imageUrl": {
+          "type": "string",
+          "maxLength": 600000,
+          "description": "Optional thumbnail image path or URL."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Short context description for the link."
+        },
+        "sortOrder": {
+          "type": "number",
+          "description": "Manual display sort order."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the portfolio owner."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp."
+        }
+      },
+      "required": ["label", "group", "url", "sortOrder", "ownerUid", "createdAt", "updatedAt"]
+    },
+    "MediaItem": {
+      "title": "MediaItem",
+      "description": "Image or visual deliverable showcased in the portfolio media gallery.",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140,
+          "description": "Caption or title of the media asset."
+        },
+        "category": {
+          "type": "string",
+          "enum": ["social-marketing", "project-preview", "analytics", "other"],
+          "description": "Media classification."
+        },
+        "src": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600000,
+          "description": "Relative public path, HTTPS URL, or validated image data URI."
+        },
+        "alt": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Accessible alternative text."
+        },
+        "linkUrl": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Optional external reference URL."
+        },
+        "sortOrder": {
+          "type": "number",
+          "description": "Manual display sort order."
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "description": "UID of the portfolio owner."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server creation timestamp."
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server last-updated timestamp."
+        }
+      },
+      "required": ["title", "category", "src", "alt", "sortOrder", "ownerUid", "createdAt", "updatedAt"]
+    },
+    "ProfileConfig": {
+      "title": "ProfileConfig",
+      "description": "Editable headline, bio, strengths intro, and hero media configuration.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "location": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "headline": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "subheadline": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 400
+        },
+        "heroImage": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 600000
+        },
+        "heroCaption": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "resumeUrl": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "assessmentUrl": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "ownerUid": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["name", "location", "headline", "subheadline", "heroImage", "resumeUrl", "assessmentUrl", "ownerUid", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/projects/{projectId}": {
+      "schema": { "$ref": "#/entities/Project" },
+      "description": "Publicly readable portfolio projects; writable only by verified portfolio owner."
+    },
+    "/links/{linkId}": {
+      "schema": { "$ref": "#/entities/PortfolioLink" },
+      "description": "Publicly readable social and resource links; writable only by verified portfolio owner."
+    },
+    "/media/{mediaId}": {
+      "schema": { "$ref": "#/entities/MediaItem" },
+      "description": "Publicly readable portfolio media items; writable only by verified portfolio owner."
+    },
+    "/profile/{profileId}": {
+      "schema": { "$ref": "#/entities/ProfileConfig" },
+      "description": "Publicly readable portfolio profile configuration; writable only by verified portfolio owner."
+    }
+  }
+}

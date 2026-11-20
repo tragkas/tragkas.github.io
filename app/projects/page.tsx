@@ -1,9 +1,15 @@
-// pages/portfolio.tsx
+import ErrorBoundary from "@/components/ErrorBoundary";
+import ProjectsArchiveView from "@/components/ProjectsArchiveView";
+import { getPortfolioSnapshot } from "@/lib/portfolio-service";
 
-import Portfolio from "../../components/Portfolio";
+export const dynamic = "force-dynamic";
 
-const PortfolioPage = () => {
-  return <Portfolio />;
-};
+export default async function ProjectsPage() {
+  const snapshot = await getPortfolioSnapshot();
 
-export default PortfolioPage;
+  return (
+    <ErrorBoundary>
+      <ProjectsArchiveView initialData={snapshot} />
+    </ErrorBoundary>
+  );
+}
