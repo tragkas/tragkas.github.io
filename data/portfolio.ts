@@ -364,16 +364,6 @@ export const portfolioData: PortfolioContent = {
       featured: false,
     },
     {
-      id: "proj_discord",
-      title: "Discord Server Template",
-      year: "2022",
-      category: "other",
-      url: "https://discord.new/NNqa7yXtZcWB",
-      description: "Pre-structured community workspace architecture.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
       id: "proj_army",
       title: "Army Packing List",
       year: "2021",
