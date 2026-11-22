@@ -30,10 +30,10 @@ export const portfolioData: PortfolioContent = {
     primaryCtaHref: "#projects",
     resumeLabel: "Resume",
     resumeUrl:
-      "https://drive.google.com/file/d/1h4SYZ_dYsqhNcPELkHu-7odHIuxciyyw/view?usp=drive_link",
+      "https://drive.google.com/drive/folders/1r2muCN9AXZ5uaYmPtvd8hbW6ZDv2DK2q?usp=sharing",
     assessmentLabel: "Personal Assessment",
     assessmentUrl:
-      "https://drive.google.com/file/d/1h49o9kHqK5Qo3Y5gZw0G2ah9iQpW_e35/view?usp=drive_link",
+      "https://drive.google.com/file/d/16hjfc_AhMmSNzIQLl1ORHUXyMZSqEVIS/view?usp=sharing",
     heroImage: "/screenshot.png",
     heroImageTitle: "Instagram Organic Growth 2025",
     heroImageSubtitle: "Analytics Overview · 28.1M Views",
@@ -182,7 +182,7 @@ export const portfolioData: PortfolioContent = {
       title: "Chrome Extension Showcase",
       year: "2025",
       category: "extension",
-      url: "https://bookmark-organizer-six.vercel.app/",
+      url: "https://chromewebstore.google.com/detail/bookmark-organizer/cbooolhmbfhplnkfedjohjinljbdjjcg?authuser=0&hl=en",
       description:
         "Product showcase and onboarding page for browser bookmark tools.",
       imageUrl: "/chrome.gif",
@@ -266,17 +266,6 @@ export const portfolioData: PortfolioContent = {
       featured: false,
     },
     {
-      id: "proj_brand_kit",
-      title: "Business Brand Kit Information Form",
-      year: "2024",
-      category: "other",
-      url: "https://github.com/tragkas/brand-kit",
-      description:
-        "Structured client intake framework for brand identity assets.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
       id: "proj_gmb_form",
       title: "Google My Business Profile Setup Form",
       year: "2024",
@@ -303,7 +292,7 @@ export const portfolioData: PortfolioContent = {
       title: "M.Sc. Thesis: The role of crowdfunding in startup financing",
       year: "2023",
       category: "finance",
-      url: "https://www.pyxida.aueb.gr/items/c2b5ec94-3559-41f5-bdd3-e0d1102d9992",
+      url: "https://drive.google.com/file/d/15mJWRxRfo5xt7QJ8uTwZz8dP6Sbc9Ow6/view?usp=sharing",
       description:
         "Published AUEB master's thesis on alternative capital formation.",
       imageUrl: "",
@@ -315,7 +304,7 @@ export const portfolioData: PortfolioContent = {
         "Russia and Ukraine: Presentation using Open-source intelligence",
       year: "2023",
       category: "negotiations",
-      url: "https://drive.google.com/file/d/1gOnTCvZ_QKLG3dsp0r6DBBv9YJ1AhqZ2/view?usp=drive_link",
+      url: "https://drive.google.com/file/d/1gI65aHoHWusjBCIXKvx7RIYF4ro7_kMV/view?usp=sharing",
       description:
         "Geopolitical negotiation analysis grounded in OSINT verification.",
       imageUrl: "",
@@ -389,7 +378,7 @@ export const portfolioData: PortfolioContent = {
       title: "Army Packing List",
       year: "2021",
       category: "other",
-      url: "https://drive.google.com/file/d/1CFFaqpIQowZql2TM-uDzdR-X4UtnFdKu/view?usp=drive_link",
+      url: "https://drive.google.com/file/d/1yMYKVh3pv9-HM-g_anlJxw1A7VnQbjTF/view?usp=sharing",
       description:
         "Practical preparation checklist widely shared for mandatory service.",
       imageUrl: "",
@@ -445,22 +434,6 @@ export const portfolioData: PortfolioContent = {
       description: "Curated visual boards and aesthetic references.",
     },
     {
-      id: "link_gumroad",
-      label: "Gumroad",
-      group: "channel",
-      url: "https://georgiostragkas.gumroad.com/",
-      imageUrl: "/gumroad-picture.png",
-      description: "Digital downloads, templates, and product experiments.",
-    },
-    {
-      id: "link_goodreads",
-      label: "Books (Goodreads)",
-      group: "resource",
-      url: "https://www.goodreads.com/user/show/181012332-georgios-tragkas",
-      imageUrl: "",
-      description: "Reading list covering economics, strategy, and psychology.",
-    },
-    {
       id: "link_wealth",
       label: "Ladders of Wealth Creation",
       group: "resource",
@@ -483,7 +456,7 @@ export const portfolioData: PortfolioContent = {
       src: "/persona-pictue.jpg",
       alt: "Customer Persona deliverable from Meta Social Media Marketing Certificate",
       linkUrl:
-        "https://drive.google.com/file/d/10BcnMFInoT3R45mOMMiRx-sTyJy9Dlhd/view?usp=drive_link",
+        "https://drive.google.com/file/d/1QLGs4WzjNvMX3MrxqB2cmx2WZxHFMEgj/view?usp=drive_link",
     },
     {
       id: "media_brief",
@@ -492,7 +465,7 @@ export const portfolioData: PortfolioContent = {
       src: "/brief-picture.jpg",
       alt: "Creative Brief deliverable from Meta Social Media Marketing Certificate",
       linkUrl:
-        "https://drive.google.com/file/d/1-um2VEfYqZa7TFRHP9rTTdTS5d9QXivl/view?usp=drive_link",
+        "https://drive.google.com/file/d/1fis9sjzQ059m2sFCpkjYbkNEQmpDm3Pl/view?usp=drive_link",
     },
     {
       id: "media_instaccount",
@@ -501,7 +474,7 @@ export const portfolioData: PortfolioContent = {
       src: "/instaccount-picture.jpg",
       alt: "Instagram Account setup deliverable",
       linkUrl:
-        "https://drive.google.com/file/d/1-u9SjyxgvGb0GgYtSxSbntx8ByDVa5ei/view?usp=drive_link",
+        "https://drive.google.com/file/d/1TokCqboiu0WgQe-lNwRvLM7MKAS3VfYe/view?usp=drive_link",
     },
     {
       id: "media_instapost",
@@ -510,7 +483,7 @@ export const portfolioData: PortfolioContent = {
       src: "/instapost-picture.jpg",
       alt: "Instagram Post creative asset",
       linkUrl:
-        "https://drive.google.com/file/d/1-lnu1xbKCpISvXciz00mK1gkCdk2W5OR/view?usp=drive_link",
+        "https://drive.google.com/file/d/1ImXeyV0KyIgv5XBU_tKAk2tERjRXEM3s/view?usp=drive_link",
     },
     {
       id: "media_instaad",
@@ -519,7 +492,7 @@ export const portfolioData: PortfolioContent = {
       src: "/instaad-picture.jpg",
       alt: "Instagram Ad campaign deliverable",
       linkUrl:
-        "https://drive.google.com/file/d/1-gueNuFQ8redli8CNQWsMRflt-pwp4lo/view?usp=drive_link",
+        "https://drive.google.com/file/d/1x6TSADoxyinHkR4tF6khC_ZM8mr6l87y/view?usp=drive_link",
     },
     {
       id: "media_calendar",
@@ -528,7 +501,7 @@ export const portfolioData: PortfolioContent = {
       src: "/calendar-picture.jpg",
       alt: "Social Media Content Calendar spreadsheet",
       linkUrl:
-        "https://docs.google.com/spreadsheets/d/1-eAfKB-mSMyaxUZk7flOcjxBEzLwk1_I/edit?usp=drive_link&ouid=118413621441124305970&rtpof=true&sd=true",
+        "https://docs.google.com/spreadsheets/d/1O4d72MQh496CKAUfM6_IanppkKx5Duj6/edit?usp=drive_link&ouid=118413621441124305970&rtpof=true&sd=true",
     },
   ],
 
@@ -577,7 +550,7 @@ export const portfolioData: PortfolioContent = {
       period: "2023",
       description: "Verified product, marketing, and analytical coursework.",
       linkUrl:
-        "https://drive.google.com/drive/folders/1Bum3Bzd51eNUeA5l6CfLqsxjPekqPU3C?usp=drive_link",
+        "https://drive.google.com/drive/folders/1x9of6OykdtCjcPSGtncqbUyyskjGvjOH?usp=drive_link",
       linkLabel: "Google Certificates",
     },
     {
@@ -587,7 +560,7 @@ export const portfolioData: PortfolioContent = {
       description:
         "Additional business and professional development credentials.",
       linkUrl:
-        "https://drive.google.com/drive/folders/1BwpkMdzmDoxWxlmC_ClVxyK0iyuxFzoO?usp=drive_link",
+        "https://drive.google.com/drive/folders/1reB2vNQst4CVb96Zj5f-xd1HKvhk5NSl?usp=drive_link",
       linkLabel: "LinkedIn Certificates",
     },
     {
