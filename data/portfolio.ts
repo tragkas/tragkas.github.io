@@ -160,7 +160,7 @@ export const portfolioData: PortfolioContent = {
       title: "Your Plumber",
       year: "2024",
       category: "website",
-      url: "https://plumber-project-tawny.vercel.app/",
+      url: "https://tragkas.github.io/plumber-project/",
       description:
         "Local service landing page designed for direct customer inquiries.",
       imageUrl: "/plumber.gif",
@@ -171,7 +171,7 @@ export const portfolioData: PortfolioContent = {
       title: "Airbnb Link Tree",
       year: "2024",
       category: "website",
-      url: "https://airbnb-link-tree.vercel.app/",
+      url: "https://tragkas.github.io/airbnb-link-tree/",
       description:
         "Custom hospitality link hub tailored for short-term rental guests.",
       imageUrl: "/linktree.gif",
@@ -196,17 +196,6 @@ export const portfolioData: PortfolioContent = {
       url: "https://tragkas.github.io/uni-list/",
       description:
         "Searchable directory helping students compare university programs.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
-      id: "proj_fiotiatora",
-      title: "Fiotiatora",
-      year: "2025",
-      category: "web-app",
-      url: "https://fotiatora.vercel.app/",
-      description:
-        "Interactive web application built with modern front-end architecture.",
       imageUrl: "",
       featured: false,
     },
@@ -255,33 +244,11 @@ export const portfolioData: PortfolioContent = {
       featured: false,
     },
     {
-      id: "proj_airbnb_research",
-      title: "Airbnb Customer Preferences Research",
-      year: "2024",
-      category: "real-estate",
-      url: "https://drive.google.com/file/d/1gg3kcbGe1joklsd2MqbxcisPCYgHkTUj/view?usp=sharing",
-      description:
-        "Empirical research examining short-term rental guest decision factors.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
-      id: "proj_gmb_form",
-      title: "Google My Business Profile Setup Form",
-      year: "2024",
-      category: "other",
-      url: "https://github.com/tragkas/google-my-business-form",
-      description:
-        "Operational checklist and onboarding form for local search visibility.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
       id: "proj_msc_pres",
       title: "M.Sc. Thesis: Presentation",
       year: "2023",
       category: "finance",
-      url: "https://drive.google.com/file/d/1gNMXbkgEdYnmzXxRwzyK_oHjaGXagNr_/view?usp=drive_link",
+      url: "https://drive.google.com/file/d/15mJWRxRfo5xt7QJ8uTwZz8dP6Sbc9Ow6/view?usp=drive_link",
       description:
         "Executive defense deck summarizing startup crowdfunding findings.",
       imageUrl: "",
@@ -292,7 +259,7 @@ export const portfolioData: PortfolioContent = {
       title: "M.Sc. Thesis: The role of crowdfunding in startup financing",
       year: "2023",
       category: "finance",
-      url: "https://drive.google.com/file/d/15mJWRxRfo5xt7QJ8uTwZz8dP6Sbc9Ow6/view?usp=sharing",
+      url: "https://drive.google.com/file/d/1bETuuheUH3_h2W-zLuEh2yyIHesAMcM_/view?usp=sharing",
       description:
         "Published AUEB master's thesis on alternative capital formation.",
       imageUrl: "",
@@ -342,28 +309,6 @@ export const portfolioData: PortfolioContent = {
       featured: false,
     },
     {
-      id: "proj_dispute",
-      title: "Dispute Resolution Method",
-      year: "2023",
-      category: "negotiations",
-      url: "https://github.com/tragkas/dispute-resolution-method",
-      description:
-        "Structured framework for principled negotiation and conflict resolution.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
-      id: "proj_risk_tolerance",
-      title: "Investor's Risk Tolerance",
-      year: "2023",
-      category: "finance",
-      url: "https://github.com/tragkas/investors-risk-tolerance",
-      description:
-        "Behavioral finance assessment model for portfolio allocation.",
-      imageUrl: "",
-      featured: false,
-    },
-    {
       id: "proj_army",
       title: "Army Packing List",
       year: "2021",
@@ -380,7 +325,7 @@ export const portfolioData: PortfolioContent = {
       year: "2020",
       category: "other",
       url: "https://www.gtainside.com/user/iuser",
-      description: "Community mods reaching over 230,000 organic downloads.",
+      description: "Community mods reaching over 310,000 organic downloads.",
       imageUrl: "",
       featured: false,
     },
@@ -422,15 +367,6 @@ export const portfolioData: PortfolioContent = {
       url: "https://gr.pinterest.com/georgiostragkas/",
       imageUrl: "/pinterest-picture.png",
       description: "Curated visual boards and aesthetic references.",
-    },
-    {
-      id: "link_wealth",
-      label: "Ladders of Wealth Creation",
-      group: "resource",
-      url: "https://roadmap.sh/r/ladders-of-wealth-creation",
-      imageUrl: "",
-      description:
-        "Visual mental model roadmap on compounding skills and capital.",
     },
   ],
 
